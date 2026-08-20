@@ -1,0 +1,15 @@
+[
+  { "slug": "malphite", "name": "Malphite", "roles": ["top"] },
+  { "slug": "yasuo", "name": "Yasuo", "roles": ["top", "mid"] },
+  { "slug": "jayce", "name": "Jayce", "roles": ["top", "mid"] },
+  { "slug": "leesin", "name": "Lee Sin", "roles": ["jungle"] },
+  { "slug": "vi", "name": "Vi", "roles": ["jungle"] },
+  { "slug": "ahri", "name": "Ahri", "roles": ["mid"] },
+  { "slug": "zed", "name": "Zed", "roles": ["mid"] },
+  { "slug": "kaisa", "name": "Kai'Sa", "roles": ["adc"] },
+  { "slug": "jinx", "name": "Jinx", "roles": ["adc"] },
+  { "slug": "caitlyn", "name": "Caitlyn", "roles": ["adc"] },
+  { "slug": "thresh", "name": "Thresh", "roles": ["support"] },
+  { "slug": "leona", "name": "Leona", "roles": ["support"] },
+  { "slug": "nautilus", "name": "Nautilus", "roles": ["support", "jungle"] }
+]

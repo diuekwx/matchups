@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+
+**/.gocache/
+**/.tmp-gocache/
+
+__pycache__/
+*.py[cod]
+.venv/
+
+.idea/
+.vscode/
+*.log
