@@ -1,0 +1,92 @@
+[
+  {
+    "id": "malphite-jayce-poke",
+    "question": "How should Malphite handle Jayce's ranged pressure in top lane?",
+    "champion": "Malphite",
+    "opponent": "Jayce",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+    "expected_terms": ["ranged", "poke", "minions"]
+  },
+  {
+    "id": "malphite-jayce-combo",
+    "question": "What Jayce combo should Malphite try to avoid?",
+    "champion": "Malphite",
+    "opponent": "Jayce",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+    "expected_terms": ["E", "Q", "combo"]
+  },
+  {
+    "id": "malphite-jayce-win-rate",
+    "question": "What win rate does the source report for Malphite against Jayce top?",
+    "champion": "Malphite",
+    "opponent": "Jayce",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+    "expected_terms": ["56.09%"]
+  },
+  {
+    "id": "malphite-yone-plan",
+    "question": "How should Malphite play fights against Yone top?",
+    "champion": "Malphite",
+    "opponent": "Yone",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+    "expected_terms": ["Q", "E", "attack speed"]
+  },
+  {
+    "id": "malphite-yone-skill",
+    "question": "Which Malphite skill does the source recommend mastering first against Yone, and why?",
+    "champion": "Malphite",
+    "opponent": "Yone",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+    "expected_terms": ["W", "armor"]
+  },
+  {
+    "id": "malphite-yone-lane-kills",
+    "question": "What lane kill rate does the data give Malphite versus Yone?",
+    "champion": "Malphite",
+    "opponent": "Yone",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+    "expected_terms": ["58.14%"]
+  },
+  {
+    "id": "malphite-yone-damage",
+    "question": "Who deals more champion damage in the Malphite versus Yone data?",
+    "champion": "Malphite",
+    "opponent": "Yone",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+    "expected_terms": ["Yone", "23,915"]
+  },
+  {
+    "id": "malphite-nasus-stacks",
+    "question": "What should Malphite prevent Nasus from doing in lane?",
+    "champion": "Malphite",
+    "opponent": "Nasus",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+    "expected_terms": ["stacks", "damage"]
+  },
+  {
+    "id": "malphite-nasus-level-six",
+    "question": "When and how does the source suggest killing Nasus?",
+    "champion": "Malphite",
+    "opponent": "Nasus",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+    "expected_terms": ["level 6", "gank"]
+  },
+  {
+    "id": "malphite-nasus-win-rate",
+    "question": "What overall win rates are reported for Malphite and Nasus in this matchup?",
+    "champion": "Malphite",
+    "opponent": "Nasus",
+    "role": "top",
+    "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+    "expected_terms": ["45.29%", "54.71%"]
+  }
+]

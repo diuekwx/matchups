@@ -1,0 +1,227 @@
+{
+  "created_at": "2026-08-23T01:35:39.872519+00:00",
+  "dataset": "eval\\matchup_questions.json",
+  "retrieval_limit": 3,
+  "generation_model": "gemini-3.6-flash",
+  "metrics": {
+    "cases": 10,
+    "hit_at_3": 1.0,
+    "mrr": 1.0,
+    "no_result_rate": 0.0,
+    "mean_expected_term_recall": 1.0,
+    "citation_rate": 1.0
+  },
+  "results": [
+    {
+      "id": "malphite-jayce-poke",
+      "question": "How should Malphite handle Jayce's ranged pressure in top lane?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce"
+      ],
+      "answer": "To handle Jayce's ranged pressure in the top lane, Malphite should:\n\n* **Avoid ranged pokes** (as well as Jayce's hammer form combo) to prevent losing health [Source 1].\n* **Stick behind minions** to dodge Jayce's (E)-(Q) combo [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "ranged",
+          "poke",
+          "minions"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-jayce-combo",
+      "question": "What Jayce combo should Malphite try to avoid?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce"
+      ],
+      "answer": "Based on the provided context, Malphite should try to avoid Jayce's **hammer form combo** (to prevent losing health) and his **(E)-(Q) combo** (which can be dodged by sticking behind minions) [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "E",
+          "Q",
+          "combo"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-jayce-win-rate",
+      "question": "What win rate does the source report for Malphite against Jayce top?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce"
+      ],
+      "answer": "According to the source, Malphite has a 56.09% win rate against Jayce in the top lane (while Jayce has a 43.91% win rate) [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "56.09%"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-yone-plan",
+      "question": "How should Malphite play fights against Yone top?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone"
+      ],
+      "answer": "Based on the provided context, Malphite should approach fights against Yone top by doing the following:\n\n* Avoid Yone’s (Q) during fights to gain the upper hand [Source 1].\n* Use Malphite's [E] to reduce Yone's attack speed [Source 1].\n* Master/max [W] first to increase your armor [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "Q",
+          "E",
+          "attack speed"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-yone-skill",
+      "question": "Which Malphite skill does the source recommend mastering first against Yone, and why?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone"
+      ],
+      "answer": "Based on the provided context, the source recommends mastering Malphite's **[W]** skill first to increase your armor [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "W",
+          "armor"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-yone-lane-kills",
+      "question": "What lane kill rate does the data give Malphite versus Yone?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone"
+      ],
+      "answer": "Based on the provided data, the lane kill rate for Malphite versus Yone is 58.14% for Malphite compared to 41.86% for Yone [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "58.14%"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-yone-damage",
+      "question": "Who deals more champion damage in the Malphite versus Yone data?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=yone"
+      ],
+      "answer": "Based on the provided data, Yone deals more champion damage than Malphite, with 23,915 damage dealt to champions compared to Malphite's 20,367 [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "Yone",
+          "23,915"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-nasus-stacks",
+      "question": "What should Malphite prevent Nasus from doing in lane?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus"
+      ],
+      "answer": "Malphite should prevent Nasus from gaining stacks by dealing damage to him [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "stacks",
+          "damage"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-nasus-level-six",
+      "question": "When and how does the source suggest killing Nasus?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus"
+      ],
+      "answer": "Based on the provided context, the source suggests trying to kill Nasus **after reaching level 6** by executing a **gank** [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "level 6",
+          "gank"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "malphite-nasus-win-rate",
+      "question": "What overall win rates are reported for Malphite and Nasus in this matchup?",
+      "expected_source_url": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus",
+      "expected_source_rank": 1,
+      "retrieved_sources": [
+        "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus"
+      ],
+      "answer": "In this matchup, the reported win rates are 45.29% for Malphite and 54.71% for Nasus [Source 1].",
+      "answer_scores": {
+        "expected_term_recall": 1.0,
+        "matched_terms": [
+          "45.29%",
+          "54.71%"
+        ],
+        "has_valid_citation": true,
+        "valid_citations": [
+          1
+        ]
+      }
+    }
+  ]
+}
