@@ -17,6 +17,14 @@ type Stat struct {
 	Opponent string `json:"opponent_value"`
 }
 
+// Combo is one skill-order combo card from a champion's build page, e.g.
+// {Difficulty: "Medium", Sequence: "Q+AA+Q2+AA+E+AA"}. Not opponent-specific
+// -- these are general combos for the champion in a role.
+type Combo struct {
+	Difficulty string `json:"difficulty"`
+	Sequence   string `json:"sequence"`
+}
+
 // Chunk is one champion-vs-opponent-in-a-role matchup, ready to embed.
 type Chunk struct {
 	Champion  string    `json:"champion"`
