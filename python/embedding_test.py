@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import pytest
+from google.genai import errors
 from pgvector import Vector
 
 from embedding import (
@@ -8,8 +9,10 @@ from embedding import (
     EMBEDDING_DIMENSIONS,
     EMBEDDING_MODEL,
     embed_row,
+    embed_row_with_retry,
     require_environment_variable,
     retrieve_rows,
+    retry_delay_seconds,
     update_embedding,
 )
 
@@ -39,6 +42,24 @@ class FakeModels:
 class FakeClient:
     def __init__(self, embeddings):
         self.models = FakeModels(embeddings)
+
+
+class SequencedModels:
+    def __init__(self, outcomes):
+        self.outcomes = iter(outcomes)
+        self.calls = 0
+
+    def embed_content(self, **_kwargs):
+        self.calls += 1
+        outcome = next(self.outcomes)
+        if isinstance(outcome, Exception):
+            raise outcome
+        return SimpleNamespace(embeddings=outcome)
+
+
+class SequencedClient:
+    def __init__(self, outcomes):
+        self.models = SequencedModels(outcomes)
 
 
 class FakeResult:
@@ -138,6 +159,51 @@ def test_embed_row_rejects_wrong_dimensions():
 
     with pytest.raises(ValueError, match="Expected 768 dimensions, received 767"):
         embed_row(client, make_row())
+
+
+def test_retry_delay_uses_gemini_retry_info_with_buffer():
+    error = errors.ClientError(429, {
+        "error": {"details": [{"retryDelay": "21.087s"}]}
+    })
+
+    assert retry_delay_seconds(error, attempt=1) == pytest.approx(22.087)
+
+
+def test_embed_row_with_retry_recovers_from_rate_limit():
+    rate_limit = errors.ClientError(429, {
+        "error": {"details": [{"retryDelay": "2s"}]}
+    })
+    values = [0.01] * EMBEDDING_DIMENSIONS
+    client = SequencedClient([rate_limit, [SimpleNamespace(values=values)]])
+    delays = []
+
+    result = embed_row_with_retry(
+        client,
+        make_row(),
+        max_retries=2,
+        sleep=delays.append,
+    )
+
+    assert result == values
+    assert client.models.calls == 2
+    assert delays == [3.0]
+
+
+def test_embed_row_with_retry_does_not_retry_nonretryable_error():
+    bad_request = errors.ClientError(400, {"error": {"message": "bad request"}})
+    client = SequencedClient([bad_request])
+    delays = []
+
+    with pytest.raises(errors.ClientError):
+        embed_row_with_retry(
+            client,
+            make_row(),
+            max_retries=2,
+            sleep=delays.append,
+        )
+
+    assert client.models.calls == 1
+    assert delays == []
 
 
 def test_update_embedding_stores_vector_for_matching_row():
