@@ -1,0 +1,1156 @@
+{
+  "created_at": "2026-09-14T21:34:55.871931+00:00",
+  "corpus": "scraper\\output\\chunks.json",
+  "dataset": "eval\\retrieval_cases.json",
+  "corpus_passages": 2071,
+  "evaluation_scope": "Evidence retrieval only; champion, opponent, and role are supplied as structured inputs. Entity extraction and answer generation are not scored.",
+  "case_distribution": {
+    "roles": {
+      "adc": 9,
+      "jungle": 9,
+      "mid": 9,
+      "support": 9,
+      "top": 9
+    },
+    "challenges": {
+      "ability_overlap": 6,
+      "cross_role_collision": 1,
+      "generic_tactics": 5,
+      "implicit_pair": 11,
+      "near_duplicate_tip": 1,
+      "reverse_matchup": 6,
+      "stat_paraphrase": 15
+    }
+  },
+  "strategies": {
+    "baseline": "global TF-IDF cosine",
+    "hybrid": "champion/opponent/role filter + intent-aware TF-IDF reranking"
+  },
+  "baseline": {
+    "metrics": {
+      "cases": 45,
+      "hit_at_1": 0.17777777777777778,
+      "hit_at_3": 0.3333333333333333,
+      "mrr_at_10": 0.2561111111111111,
+      "miss_at_10": 0.5777777777777777
+    },
+    "by_challenge": {
+      "ability_overlap": {
+        "cases": 6,
+        "hit_at_1": 0.3333333333333333,
+        "hit_at_3": 0.6666666666666666,
+        "mrr_at_10": 0.47222222222222227,
+        "miss_at_10": 0.3333333333333333
+      },
+      "cross_role_collision": {
+        "cases": 1,
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 0.3333333333333333,
+        "miss_at_10": 0.0
+      },
+      "generic_tactics": {
+        "cases": 5,
+        "hit_at_1": 0.4,
+        "hit_at_3": 0.8,
+        "mrr_at_10": 0.62,
+        "miss_at_10": 0.0
+      },
+      "implicit_pair": {
+        "cases": 11,
+        "hit_at_1": 0.18181818181818182,
+        "hit_at_3": 0.36363636363636365,
+        "mrr_at_10": 0.268939393939394,
+        "miss_at_10": 0.5454545454545454
+      },
+      "near_duplicate_tip": {
+        "cases": 1,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "reverse_matchup": {
+        "cases": 6,
+        "hit_at_1": 0.16666666666666666,
+        "hit_at_3": 0.16666666666666666,
+        "mrr_at_10": 0.21666666666666667,
+        "miss_at_10": 0.5
+      },
+      "stat_paraphrase": {
+        "cases": 15,
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "mrr_at_10": 0.0,
+        "miss_at_10": 1.0
+      }
+    },
+    "results": [
+      {
+        "id": "top-jayce-poke",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
+        ]
+      },
+      {
+        "id": "top-yone-third-q",
+        "challenge": "cross_role_collision",
+        "rank": 3,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip"
+        ]
+      },
+      {
+        "id": "top-nasus-stacks",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip"
+        ]
+      },
+      {
+        "id": "top-malpite-ground-slam",
+        "challenge": "ability_overlap",
+        "rank": 2,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=braum#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=lucian#tip"
+        ]
+      },
+      {
+        "id": "top-aatrox-healing",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=kaisa#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=sylas#tip"
+        ]
+      },
+      {
+        "id": "top-irelia-stacks",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=nasus#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=lissandra#tip"
+        ]
+      },
+      {
+        "id": "top-jayce-overall-win",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip"
+        ]
+      },
+      {
+        "id": "top-yone-lane-kills",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_kill_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=karma#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=fizz#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=yuumi#tip"
+        ]
+      },
+      {
+        "id": "top-nasus-tower",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:first_tower_kill",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=lux#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=sylas#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip"
+        ]
+      },
+      {
+        "id": "mid-ahri-zed-mark",
+        "challenge": "reverse_matchup",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=garen#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=galio#tip"
+        ]
+      },
+      {
+        "id": "mid-zed-ahri-charm",
+        "challenge": "reverse_matchup",
+        "rank": 5,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=katarina#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=leblanc#tip"
+        ]
+      },
+      {
+        "id": "mid-lissandra-cleanse",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=lissandra#tip"
+        ]
+      },
+      {
+        "id": "mid-katarina-daggers",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=aatrox#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip"
+        ]
+      },
+      {
+        "id": "mid-malzahar-passive",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
+        ]
+      },
+      {
+        "id": "mid-fizz-invulnerability",
+        "challenge": "generic_tactics",
+        "rank": 2,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=gnar#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip"
+        ]
+      },
+      {
+        "id": "mid-ahri-zed-lane-win",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=nasus#tip"
+        ]
+      },
+      {
+        "id": "mid-zed-ahri-damage",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=nidalee#tip"
+        ]
+      },
+      {
+        "id": "mid-lissandra-kp",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:kill_participation",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=zed#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=karma#tip"
+        ]
+      },
+      {
+        "id": "jungle-jarvan-combo",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=kassadin#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=katarina#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
+        ]
+      },
+      {
+        "id": "jungle-masteryi-meditate",
+        "challenge": "ability_overlap",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=renekton#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=galio#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=braum#tip"
+        ]
+      },
+      {
+        "id": "jungle-khazix-isolation",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=viktor#tip"
+        ]
+      },
+      {
+        "id": "jungle-nocturne-six",
+        "challenge": "implicit_pair",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip"
+        ]
+      },
+      {
+        "id": "jungle-kayn-transform",
+        "challenge": "generic_tactics",
+        "rank": 2,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=jarvaniv#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=kayn#tip"
+        ]
+      },
+      {
+        "id": "jungle-ekko-zone",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=graves#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=graves#tip"
+        ]
+      },
+      {
+        "id": "jungle-jarvan-kda",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:kda",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=thresh#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=braum#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=lux#tip"
+        ]
+      },
+      {
+        "id": "jungle-masteryi-ban",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=yone#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=teemo#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=kaisa#tip"
+        ]
+      },
+      {
+        "id": "jungle-khazix-pick",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_pick_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=syndra#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=gnar#tip"
+        ]
+      },
+      {
+        "id": "adc-kaisa-jinx-minions",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=yone#tip"
+        ]
+      },
+      {
+        "id": "adc-jinx-kaisa-range",
+        "challenge": "reverse_matchup",
+        "rank": 10,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=twitch#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip"
+        ]
+      },
+      {
+        "id": "adc-draven-interrupt",
+        "challenge": "implicit_pair",
+        "rank": 2,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=tristana#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=lucian#tip"
+        ]
+      },
+      {
+        "id": "adc-sivir-shield",
+        "challenge": "ability_overlap",
+        "rank": 3,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=morgana#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip"
+        ]
+      },
+      {
+        "id": "adc-twitch-stealth",
+        "challenge": "implicit_pair",
+        "rank": 3,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=zed#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip"
+        ]
+      },
+      {
+        "id": "adc-ezreal-shift",
+        "challenge": "near_duplicate_tip",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip"
+        ]
+      },
+      {
+        "id": "adc-kaisa-jinx-kills",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_kill_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=nautilus#tip"
+        ]
+      },
+      {
+        "id": "adc-jinx-kaisa-overall",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=nidalee#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip"
+        ]
+      },
+      {
+        "id": "adc-draven-damage",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=pyke#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=jayce#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=yasuo#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "support-thresh-leona-intercept",
+        "challenge": "reverse_matchup",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=leona#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip"
+        ]
+      },
+      {
+        "id": "support-leona-thresh-hook",
+        "challenge": "reverse_matchup",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=sylas#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=sylas#tip"
+        ]
+      },
+      {
+        "id": "support-morgana-shield",
+        "challenge": "generic_tactics",
+        "rank": 10,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=morgana#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=ahri#tip"
+        ]
+      },
+      {
+        "id": "support-bard-roam",
+        "challenge": "implicit_pair",
+        "rank": 8,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=pyke#tip"
+        ]
+      },
+      {
+        "id": "support-janna-tornado",
+        "challenge": "ability_overlap",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=nautilus#tip"
+        ]
+      },
+      {
+        "id": "support-pyke-six",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip"
+        ]
+      },
+      {
+        "id": "support-thresh-leona-ban",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=yone#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=teemo#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=lux#tip"
+        ]
+      },
+      {
+        "id": "support-leona-thresh-kp",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:kill_participation",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=karma#tip",
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=zed#tip"
+        ]
+      },
+      {
+        "id": "support-morgana-lane-win",
+        "challenge": "stat_paraphrase",
+        "rank": null,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:lane_win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=ashe#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=pyke#tip"
+        ]
+      }
+    ]
+  },
+  "hybrid": {
+    "metrics": {
+      "cases": 45,
+      "hit_at_1": 0.9333333333333333,
+      "hit_at_3": 0.9333333333333333,
+      "mrr_at_10": 0.9424338624338625,
+      "miss_at_10": 0.0
+    },
+    "by_challenge": {
+      "ability_overlap": {
+        "cases": 6,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "cross_role_collision": {
+        "cases": 1,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "generic_tactics": {
+        "cases": 5,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "implicit_pair": {
+        "cases": 11,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "near_duplicate_tip": {
+        "cases": 1,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "reverse_matchup": {
+        "cases": 6,
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "mrr_at_10": 1.0,
+        "miss_at_10": 0.0
+      },
+      "stat_paraphrase": {
+        "cases": 15,
+        "hit_at_1": 0.8,
+        "hit_at_3": 0.8,
+        "mrr_at_10": 0.8273015873015873,
+        "miss_at_10": 0.0
+      }
+    },
+    "results": [
+      {
+        "id": "top-jayce-poke",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:ban_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "top-yone-third-q",
+        "challenge": "cross_role_collision",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:ban_rate",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "top-nasus-stacks",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:lane_kill_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:kill_participation"
+        ]
+      },
+      {
+        "id": "top-malpite-ground-slam",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#stat:ban_rate",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "top-aatrox-healing",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#stat:first_tower_kill",
+          "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "top-irelia-stacks",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#stat:ban_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "top-jayce-overall-win",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:win_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:lane_win_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:lane_pick_rate"
+        ]
+      },
+      {
+        "id": "top-yone-lane-kills",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_kill_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_kill_rate",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_win_rate",
+          "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_pick_rate"
+        ]
+      },
+      {
+        "id": "top-nasus-tower",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:first_tower_kill",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:first_tower_kill",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:lane_kill_rate",
+          "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:kill_participation"
+        ]
+      },
+      {
+        "id": "mid-ahri-zed-mark",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:ban_rate",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-zed-ahri-charm",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:ban_rate",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-lissandra-cleanse",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:ban_rate",
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-katarina-daggers",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#stat:ban_rate",
+          "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-malzahar-passive",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#tip",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#stat:ban_rate",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-fizz-invulnerability",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#stat:ban_rate",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "mid-ahri-zed-lane-win",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_win_rate",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:win_rate",
+          "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_kill_rate"
+        ]
+      },
+      {
+        "id": "mid-zed-ahri-damage",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
+          "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "mid-lissandra-kp",
+        "challenge": "stat_paraphrase",
+        "rank": 6,
+        "expected_passage_id": "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:kill_participation",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:ban_rate",
+          "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "jungle-jarvan-combo",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:ban_rate",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "jungle-masteryi-meditate",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "jungle-khazix-isolation",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:ban_rate",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "jungle-nocturne-six",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "jungle-kayn-transform",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#stat:ban_rate",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "jungle-ekko-zone",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#stat:ban_rate",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "jungle-jarvan-kda",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:kda",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:kda",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "jungle-masteryi-ban",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:lane_win_rate",
+          "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:win_rate"
+        ]
+      },
+      {
+        "id": "jungle-khazix-pick",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_pick_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_pick_rate",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_win_rate",
+          "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:win_rate"
+        ]
+      },
+      {
+        "id": "adc-kaisa-jinx-minions",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:ban_rate",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-jinx-kaisa-range",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:ban_rate",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-draven-interrupt",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:ban_rate",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-sivir-shield",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "adc-twitch-stealth",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#stat:ban_rate",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-ezreal-shift",
+        "challenge": "near_duplicate_tip",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#stat:ban_rate",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-kaisa-jinx-kills",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_kill_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_kill_rate",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_win_rate",
+          "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_pick_rate"
+        ]
+      },
+      {
+        "id": "adc-jinx-kaisa-overall",
+        "challenge": "stat_paraphrase",
+        "rank": 10,
+        "expected_passage_id": "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:ban_rate",
+          "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:damage_dealt_to_champions"
+        ]
+      },
+      {
+        "id": "adc-draven-damage",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
+          "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "support-thresh-leona-intercept",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:win_rate",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "support-leona-thresh-hook",
+        "challenge": "reverse_matchup",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:ban_rate",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:kda"
+        ]
+      },
+      {
+        "id": "support-morgana-shield",
+        "challenge": "generic_tactics",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:ban_rate",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:kda"
+        ]
+      },
+      {
+        "id": "support-bard-roam",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#tip",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#stat:ban_rate",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#stat:kda"
+        ]
+      },
+      {
+        "id": "support-janna-tornado",
+        "challenge": "ability_overlap",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#stat:ban_rate",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#stat:kda"
+        ]
+      },
+      {
+        "id": "support-pyke-six",
+        "challenge": "implicit_pair",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#stat:ban_rate",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#stat:kda"
+        ]
+      },
+      {
+        "id": "support-thresh-leona-ban",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:win_rate",
+          "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:lane_kill_rate"
+        ]
+      },
+      {
+        "id": "support-leona-thresh-kp",
+        "challenge": "stat_paraphrase",
+        "rank": 7,
+        "expected_passage_id": "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:kill_participation",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:win_rate",
+          "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:ban_rate"
+        ]
+      },
+      {
+        "id": "support-morgana-lane-win",
+        "challenge": "stat_paraphrase",
+        "rank": 1,
+        "expected_passage_id": "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:lane_win_rate",
+        "top_passage_ids": [
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:lane_win_rate",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
+          "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:win_rate"
+        ]
+      }
+    ]
+  },
+  "absolute_improvement": {
+    "hit_at_1": 0.7555555555555555,
+    "hit_at_3": 0.6000000000000001,
+    "mrr_at_10": 0.6863227513227514
+  },
+  "paired_comparison": {
+    "rank_wins": 37,
+    "rank_losses": 0,
+    "rank_ties": 8,
+    "hit_at_1_improvements": 34,
+    "hit_at_1_regressions": 0,
+    "exact_p_value": 1.1641532182693481e-10
+  }
+}
