@@ -16,7 +16,9 @@ import json
 import math
 import platform
 import re
+import statistics
 import subprocess
+import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -26,9 +28,10 @@ from typing import Any, Iterable
 DEFAULT_CORPUS = Path("scraper/output/chunks.json")
 DEFAULT_DATASET = Path("eval/retrieval_cases.json")
 DEFAULT_OUT = Path("eval/reports/retrieval_comparison.json")
-REPORT_SCHEMA_VERSION = "2.0"
-EVALUATOR_VERSION = "retrieval-eval-v1"
+REPORT_SCHEMA_VERSION = "2.1"
+EVALUATOR_VERSION = "retrieval-eval-v2"
 RETRIEVAL_LIMIT = 10
+DEFAULT_LATENCY_RUNS = 20
 
 TOKEN_RE = re.compile(r"[a-z0-9]+(?:'[a-z0-9]+)?")
 STAT_ALIASES = {
@@ -84,6 +87,7 @@ def reproducibility_metadata(
     chunks: list[dict[str, Any]],
     passages: list[dict[str, Any]],
     cases: list[dict[str, Any]],
+    latency_runs: int,
 ) -> dict[str, Any]:
     repo_root = evaluator_path.resolve().parents[1]
     try:
@@ -122,6 +126,8 @@ def reproducibility_metadata(
         },
         "retrieval_config": {
             "limit": RETRIEVAL_LIMIT,
+            "latency_runs_per_case": latency_runs,
+            "latency_clock": "time.perf_counter_ns",
             "passage_unit": "one matchup tip or one matchup statistic",
             "token_pattern": TOKEN_RE.pattern,
             "tfidf": {
@@ -305,10 +311,46 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def evaluate(index: TfidfIndex, cases: list[dict[str, Any]], strategy: str) -> dict[str, Any]:
+def summarize_latency(latencies_ms: list[float]) -> dict[str, Any]:
+    if not latencies_ms:
+        raise ValueError("At least one latency measurement is required")
+    ordered = sorted(latencies_ms)
+    p95_index = math.ceil(0.95 * len(ordered)) - 1
+    return {
+        "queries": len(ordered),
+        "min_ms": ordered[0],
+        "mean_ms": statistics.fmean(ordered),
+        "median_ms": statistics.median(ordered),
+        "p95_ms": ordered[p95_index],
+        "max_ms": ordered[-1],
+        "estimated_workload_total_ms": sum(ordered),
+    }
+
+
+def measure_query_latency(
+    retriever: Any,
+    index: TfidfIndex,
+    case: dict[str, Any],
+    runs: int,
+) -> float:
+    samples_ms = []
+    for _ in range(runs):
+        started_ns = time.perf_counter_ns()
+        retriever(index, case, RETRIEVAL_LIMIT)
+        samples_ms.append((time.perf_counter_ns() - started_ns) / 1_000_000)
+    return statistics.median(samples_ms)
+
+
+def evaluate(
+    index: TfidfIndex,
+    cases: list[dict[str, Any]],
+    strategy: str,
+    latency_runs: int = DEFAULT_LATENCY_RUNS,
+) -> dict[str, Any]:
     retriever = retrieve_baseline if strategy == "baseline" else retrieve_hybrid
     results = []
     for case in cases:
+        # The correctness call doubles as a warmup and is intentionally untimed.
         retrieved = retriever(index, case, RETRIEVAL_LIMIT)
         results.append({
             "id": case["id"],
@@ -316,6 +358,12 @@ def evaluate(index: TfidfIndex, cases: list[dict[str, Any]], strategy: str) -> d
             "rank": rank_of(retrieved, case["expected_passage_id"]),
             "expected_passage_id": case["expected_passage_id"],
             "top_passage_ids": [item["id"] for item in retrieved[:3]],
+            "latency_ms": measure_query_latency(
+                retriever,
+                index,
+                case,
+                latency_runs,
+            ),
         })
     by_challenge = {}
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -323,7 +371,12 @@ def evaluate(index: TfidfIndex, cases: list[dict[str, Any]], strategy: str) -> d
         grouped[result["challenge"]].append(result)
     for challenge, challenge_results in sorted(grouped.items()):
         by_challenge[challenge] = summarize(challenge_results)
-    return {"metrics": summarize(results), "by_challenge": by_challenge, "results": results}
+    return {
+        "metrics": summarize(results),
+        "latency": summarize_latency([result["latency_ms"] for result in results]),
+        "by_challenge": by_challenge,
+        "results": results,
+    }
 
 
 def paired_comparison(baseline: dict[str, Any], hybrid: dict[str, Any]) -> dict[str, Any]:
@@ -366,16 +419,28 @@ def main() -> None:
     parser.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument(
+        "--latency-runs",
+        type=int,
+        default=DEFAULT_LATENCY_RUNS,
+        help="Timed retrieval repetitions per case after one warmup (default: 20)",
+    )
     args = parser.parse_args()
+    if args.latency_runs < 1:
+        parser.error("--latency-runs must be at least 1")
 
     chunks = load_json_list(args.corpus)
     passages = build_passages(chunks)
     cases = load_json_list(args.dataset)
     passages_by_id = {passage["id"]: passage for passage in passages}
     validate_cases(cases, passages_by_id)
+    benchmark_started_ns = time.perf_counter_ns()
+    index_started_ns = time.perf_counter_ns()
     index = TfidfIndex(passages)
-    baseline = evaluate(index, cases, "baseline")
-    hybrid = evaluate(index, cases, "hybrid")
+    index_build_ms = (time.perf_counter_ns() - index_started_ns) / 1_000_000
+    baseline = evaluate(index, cases, "baseline", args.latency_runs)
+    hybrid = evaluate(index, cases, "hybrid", args.latency_runs)
+    benchmark_wall_ms = (time.perf_counter_ns() - benchmark_started_ns) / 1_000_000
     report = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "reproducibility": reproducibility_metadata(
@@ -385,6 +450,7 @@ def main() -> None:
             chunks,
             passages,
             cases,
+            args.latency_runs,
         ),
         "corpus": str(args.corpus),
         "dataset": str(args.dataset),
@@ -401,6 +467,22 @@ def main() -> None:
             "baseline": "global TF-IDF cosine",
             "hybrid": "champion/opponent/role filter + intent-aware TF-IDF reranking",
         },
+        "latency": {
+            "methodology": (
+                "One untimed correctness/warmup call per case followed by the "
+                "configured number of timed retrieval calls. Per-case latency is "
+                "the median; aggregate values summarize those per-case medians."
+            ),
+            "scope": "In-process retrieval only; excludes loading, index construction, and report writing.",
+            "runs_per_case": args.latency_runs,
+            "index_build_ms": index_build_ms,
+            "benchmark_wall_ms": benchmark_wall_ms,
+            "baseline": baseline["latency"],
+            "hybrid": hybrid["latency"],
+            "hybrid_mean_speedup": (
+                baseline["latency"]["mean_ms"] / hybrid["latency"]["mean_ms"]
+            ),
+        },
         "baseline": baseline,
         "hybrid": hybrid,
         "absolute_improvement": {
@@ -415,6 +497,7 @@ def main() -> None:
         "corpus_passages": len(passages),
         "baseline": baseline["metrics"],
         "hybrid": hybrid["metrics"],
+        "latency": report["latency"],
         "absolute_improvement": report["absolute_improvement"],
     }, indent=2))
     print(f"Saved report to {args.out}")

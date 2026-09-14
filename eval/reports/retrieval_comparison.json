@@ -1,8 +1,8 @@
 {
-  "created_at": "2026-09-14T22:01:48.478318+00:00",
+  "created_at": "2026-09-14T22:07:37.006652+00:00",
   "reproducibility": {
-    "report_schema_version": "2.0",
-    "evaluator_version": "retrieval-eval-v1",
+    "report_schema_version": "2.1",
+    "evaluator_version": "retrieval-eval-v2",
     "inputs": {
       "corpus": {
         "path": "scraper\\output\\chunks.json",
@@ -17,10 +17,10 @@
       }
     },
     "code": {
-      "commit": "cc9ee49e9a06db21a19ef190b8c093aa5de1a525",
+      "commit": "6c22c545982dfccb65707993f6178eaad5eb0695",
       "dirty": true,
       "evaluator_path": "python\\retrieval_eval.py",
-      "evaluator_sha256": "c71c7d3935bc4deb4cc7457d72914387c6a5bbe202459b20386f06f7100339ed"
+      "evaluator_sha256": "c1d689af9f4f815c0804aa75723a57a58208be87312723efc8d7940853fc45f5"
     },
     "runtime": {
       "python": "3.12.4",
@@ -33,6 +33,8 @@
     },
     "retrieval_config": {
       "limit": 10,
+      "latency_runs_per_case": 20,
+      "latency_clock": "time.perf_counter_ns",
       "passage_unit": "one matchup tip or one matchup statistic",
       "token_pattern": "[a-z0-9]+(?:'[a-z0-9]+)?",
       "tfidf": {
@@ -134,6 +136,32 @@
     "baseline": "global TF-IDF cosine",
     "hybrid": "champion/opponent/role filter + intent-aware TF-IDF reranking"
   },
+  "latency": {
+    "methodology": "One untimed correctness/warmup call per case followed by the configured number of timed retrieval calls. Per-case latency is the median; aggregate values summarize those per-case medians.",
+    "scope": "In-process retrieval only; excludes loading, index construction, and report writing.",
+    "runs_per_case": 20,
+    "index_build_ms": 15.7637,
+    "benchmark_wall_ms": 6245.6479,
+    "baseline": {
+      "queries": 45,
+      "min_ms": 3.3901000000000003,
+      "mean_ms": 6.246581111111111,
+      "median_ms": 6.51095,
+      "p95_ms": 7.63325,
+      "max_ms": 8.58145,
+      "estimated_workload_total_ms": 281.09615
+    },
+    "hybrid": {
+      "queries": 45,
+      "min_ms": 0.25715,
+      "mean_ms": 0.28237111111111113,
+      "median_ms": 0.28205,
+      "p95_ms": 0.30125,
+      "max_ms": 0.308,
+      "estimated_workload_total_ms": 12.7067
+    },
+    "hybrid_mean_speedup": 22.12188451761669
+  },
   "baseline": {
     "metrics": {
       "cases": 45,
@@ -141,6 +169,15 @@
       "hit_at_3": 0.3333333333333333,
       "mrr_at_10": 0.2561111111111111,
       "miss_at_10": 0.5777777777777777
+    },
+    "latency": {
+      "queries": 45,
+      "min_ms": 3.3901000000000003,
+      "mean_ms": 6.246581111111111,
+      "median_ms": 6.51095,
+      "p95_ms": 7.63325,
+      "max_ms": 8.58145,
+      "estimated_workload_total_ms": 281.09615
     },
     "by_challenge": {
       "ability_overlap": {
@@ -203,7 +240,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
-        ]
+        ],
+        "latency_ms": 6.40205
       },
       {
         "id": "top-yone-third-q",
@@ -214,7 +252,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip"
-        ]
+        ],
+        "latency_ms": 6.8713999999999995
       },
       {
         "id": "top-nasus-stacks",
@@ -225,7 +264,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip"
-        ]
+        ],
+        "latency_ms": 6.84995
       },
       {
         "id": "top-malpite-ground-slam",
@@ -236,7 +276,8 @@
           "https://op.gg/lol/champions/leona/counters/support?target_champion=braum#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=lucian#tip"
-        ]
+        ],
+        "latency_ms": 7.95185
       },
       {
         "id": "top-aatrox-healing",
@@ -247,7 +288,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=kaisa#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=sylas#tip"
-        ]
+        ],
+        "latency_ms": 6.56955
       },
       {
         "id": "top-irelia-stacks",
@@ -258,7 +300,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=nasus#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=lissandra#tip"
-        ]
+        ],
+        "latency_ms": 8.58145
       },
       {
         "id": "top-jayce-overall-win",
@@ -269,7 +312,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip"
-        ]
+        ],
+        "latency_ms": 5.29255
       },
       {
         "id": "top-yone-lane-kills",
@@ -280,7 +324,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=karma#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=fizz#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=yuumi#tip"
-        ]
+        ],
+        "latency_ms": 5.64905
       },
       {
         "id": "top-nasus-tower",
@@ -291,7 +336,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=lux#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=sylas#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip"
-        ]
+        ],
+        "latency_ms": 5.8176000000000005
       },
       {
         "id": "mid-ahri-zed-mark",
@@ -302,7 +348,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=garen#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=galio#tip"
-        ]
+        ],
+        "latency_ms": 7.193300000000001
       },
       {
         "id": "mid-zed-ahri-charm",
@@ -313,7 +360,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=katarina#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=leblanc#tip"
-        ]
+        ],
+        "latency_ms": 7.32405
       },
       {
         "id": "mid-lissandra-cleanse",
@@ -324,7 +372,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=lissandra#tip"
-        ]
+        ],
+        "latency_ms": 6.3194
       },
       {
         "id": "mid-katarina-daggers",
@@ -335,7 +384,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=aatrox#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip"
-        ]
+        ],
+        "latency_ms": 5.82805
       },
       {
         "id": "mid-malzahar-passive",
@@ -346,7 +396,8 @@
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
-        ]
+        ],
+        "latency_ms": 6.77395
       },
       {
         "id": "mid-fizz-invulnerability",
@@ -357,7 +408,8 @@
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=gnar#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip"
-        ]
+        ],
+        "latency_ms": 5.30785
       },
       {
         "id": "mid-ahri-zed-lane-win",
@@ -368,7 +420,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=nasus#tip"
-        ]
+        ],
+        "latency_ms": 5.04295
       },
       {
         "id": "mid-zed-ahri-damage",
@@ -379,7 +432,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=nidalee#tip"
-        ]
+        ],
+        "latency_ms": 5.9382
       },
       {
         "id": "mid-lissandra-kp",
@@ -390,7 +444,8 @@
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=zed#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=karma#tip"
-        ]
+        ],
+        "latency_ms": 6.5146
       },
       {
         "id": "jungle-jarvan-combo",
@@ -401,7 +456,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=kassadin#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=katarina#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=xayah#tip"
-        ]
+        ],
+        "latency_ms": 7.63325
       },
       {
         "id": "jungle-masteryi-meditate",
@@ -412,7 +468,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=renekton#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=galio#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=braum#tip"
-        ]
+        ],
+        "latency_ms": 6.2428
       },
       {
         "id": "jungle-khazix-isolation",
@@ -423,7 +480,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=viktor#tip"
-        ]
+        ],
+        "latency_ms": 5.76765
       },
       {
         "id": "jungle-nocturne-six",
@@ -434,7 +492,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=yone#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=lulu#tip"
-        ]
+        ],
+        "latency_ms": 7.24665
       },
       {
         "id": "jungle-kayn-transform",
@@ -445,7 +504,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=jarvaniv#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=kayn#tip"
-        ]
+        ],
+        "latency_ms": 5.578849999999999
       },
       {
         "id": "jungle-ekko-zone",
@@ -456,7 +516,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=graves#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=graves#tip"
-        ]
+        ],
+        "latency_ms": 5.848750000000001
       },
       {
         "id": "jungle-jarvan-kda",
@@ -467,7 +528,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=thresh#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=braum#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=lux#tip"
-        ]
+        ],
+        "latency_ms": 5.59035
       },
       {
         "id": "jungle-masteryi-ban",
@@ -478,7 +540,8 @@
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=yone#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=teemo#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=kaisa#tip"
-        ]
+        ],
+        "latency_ms": 3.8095
       },
       {
         "id": "jungle-khazix-pick",
@@ -489,7 +552,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=syndra#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=gnar#tip"
-        ]
+        ],
+        "latency_ms": 5.319699999999999
       },
       {
         "id": "adc-kaisa-jinx-minions",
@@ -500,7 +564,8 @@
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=yone#tip"
-        ]
+        ],
+        "latency_ms": 7.18445
       },
       {
         "id": "adc-jinx-kaisa-range",
@@ -511,7 +576,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=twitch#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip"
-        ]
+        ],
+        "latency_ms": 7.4083000000000006
       },
       {
         "id": "adc-draven-interrupt",
@@ -522,7 +588,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=tristana#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=lucian#tip"
-        ]
+        ],
+        "latency_ms": 6.6610499999999995
       },
       {
         "id": "adc-sivir-shield",
@@ -533,7 +600,8 @@
           "https://op.gg/lol/champions/leona/counters/support?target_champion=morgana#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip"
-        ]
+        ],
+        "latency_ms": 7.5691500000000005
       },
       {
         "id": "adc-twitch-stealth",
@@ -544,7 +612,8 @@
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=zed#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip"
-        ]
+        ],
+        "latency_ms": 6.6965
       },
       {
         "id": "adc-ezreal-shift",
@@ -555,7 +624,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ashe#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip"
-        ]
+        ],
+        "latency_ms": 6.51095
       },
       {
         "id": "adc-kaisa-jinx-kills",
@@ -566,7 +636,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=nautilus#tip"
-        ]
+        ],
+        "latency_ms": 5.082800000000001
       },
       {
         "id": "adc-jinx-kaisa-overall",
@@ -577,7 +648,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=nidalee#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip"
-        ]
+        ],
+        "latency_ms": 5.49775
       },
       {
         "id": "adc-draven-damage",
@@ -588,7 +660,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=pyke#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=jayce#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=yasuo#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 3.3901000000000003
       },
       {
         "id": "support-thresh-leona-intercept",
@@ -599,7 +672,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=leona#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=senna#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip"
-        ]
+        ],
+        "latency_ms": 6.9672
       },
       {
         "id": "support-leona-thresh-hook",
@@ -610,7 +684,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=braum#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=sylas#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=sylas#tip"
-        ]
+        ],
+        "latency_ms": 6.5489
       },
       {
         "id": "support-morgana-shield",
@@ -621,7 +696,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=morgana#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=ahri#tip"
-        ]
+        ],
+        "latency_ms": 6.5989
       },
       {
         "id": "support-bard-roam",
@@ -632,7 +708,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=pyke#tip"
-        ]
+        ],
+        "latency_ms": 6.7189
       },
       {
         "id": "support-janna-tornado",
@@ -643,7 +720,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=olaf#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=nautilus#tip"
-        ]
+        ],
+        "latency_ms": 7.3862
       },
       {
         "id": "support-pyke-six",
@@ -654,7 +732,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=gnar#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip"
-        ]
+        ],
+        "latency_ms": 7.618650000000001
       },
       {
         "id": "support-thresh-leona-ban",
@@ -665,7 +744,8 @@
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=yone#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=teemo#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=lux#tip"
-        ]
+        ],
+        "latency_ms": 3.78485
       },
       {
         "id": "support-leona-thresh-kp",
@@ -676,7 +756,8 @@
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=aphelios#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=karma#tip",
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=zed#tip"
-        ]
+        ],
+        "latency_ms": 5.4676
       },
       {
         "id": "support-morgana-lane-win",
@@ -687,7 +768,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=leblanc#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=ashe#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=pyke#tip"
-        ]
+        ],
+        "latency_ms": 4.7386
       }
     ]
   },
@@ -698,6 +780,15 @@
       "hit_at_3": 0.9333333333333333,
       "mrr_at_10": 0.9424338624338625,
       "miss_at_10": 0.0
+    },
+    "latency": {
+      "queries": 45,
+      "min_ms": 0.25715,
+      "mean_ms": 0.28237111111111113,
+      "median_ms": 0.28205,
+      "p95_ms": 0.30125,
+      "max_ms": 0.308,
+      "estimated_workload_total_ms": 12.7067
     },
     "by_challenge": {
       "ability_overlap": {
@@ -760,7 +851,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:ban_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.29625
       },
       {
         "id": "top-yone-third-q",
@@ -771,7 +863,8 @@
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:ban_rate",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.308
       },
       {
         "id": "top-nasus-stacks",
@@ -782,7 +875,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:lane_kill_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:kill_participation"
-        ]
+        ],
+        "latency_ms": 0.2979
       },
       {
         "id": "top-malpite-ground-slam",
@@ -793,7 +887,8 @@
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#tip",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#stat:ban_rate",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=malphite#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.304
       },
       {
         "id": "top-aatrox-healing",
@@ -804,7 +899,8 @@
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#tip",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#stat:first_tower_kill",
           "https://op.gg/lol/champions/jayce/counters/top?target_champion=aatrox#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.30025
       },
       {
         "id": "top-irelia-stacks",
@@ -815,7 +911,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#tip",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#stat:ban_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=irelia#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.30125
       },
       {
         "id": "top-jayce-overall-win",
@@ -826,7 +923,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:win_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:lane_win_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=jayce#stat:lane_pick_rate"
-        ]
+        ],
+        "latency_ms": 0.2753
       },
       {
         "id": "top-yone-lane-kills",
@@ -837,7 +935,8 @@
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_kill_rate",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_win_rate",
           "https://op.gg/lol/champions/yasuo/counters/top?target_champion=yone#stat:lane_pick_rate"
-        ]
+        ],
+        "latency_ms": 0.2945
       },
       {
         "id": "top-nasus-tower",
@@ -848,7 +947,8 @@
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:first_tower_kill",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:lane_kill_rate",
           "https://op.gg/lol/champions/malphite/counters/top?target_champion=nasus#stat:kill_participation"
-        ]
+        ],
+        "latency_ms": 0.2792
       },
       {
         "id": "mid-ahri-zed-mark",
@@ -859,7 +959,8 @@
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:ban_rate",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.28815
       },
       {
         "id": "mid-zed-ahri-charm",
@@ -870,7 +971,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:ban_rate",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.29215
       },
       {
         "id": "mid-lissandra-cleanse",
@@ -881,7 +983,8 @@
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:ban_rate",
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.29359999999999997
       },
       {
         "id": "mid-katarina-daggers",
@@ -892,7 +995,8 @@
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#tip",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#stat:ban_rate",
           "https://op.gg/lol/champions/jayce/counters/mid?target_champion=katarina#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.29474999999999996
       },
       {
         "id": "mid-malzahar-passive",
@@ -903,7 +1007,8 @@
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#tip",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#stat:ban_rate",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=malzahar#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.2848
       },
       {
         "id": "mid-fizz-invulnerability",
@@ -914,7 +1019,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#stat:ban_rate",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=fizz#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.27635
       },
       {
         "id": "mid-ahri-zed-lane-win",
@@ -925,7 +1031,8 @@
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_win_rate",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:win_rate",
           "https://op.gg/lol/champions/ahri/counters/mid?target_champion=zed#stat:lane_kill_rate"
-        ]
+        ],
+        "latency_ms": 0.27290000000000003
       },
       {
         "id": "mid-zed-ahri-damage",
@@ -936,7 +1043,8 @@
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#tip",
           "https://op.gg/lol/champions/zed/counters/mid?target_champion=ahri#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.27890000000000004
       },
       {
         "id": "mid-lissandra-kp",
@@ -947,7 +1055,8 @@
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#tip",
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:ban_rate",
           "https://op.gg/lol/champions/yasuo/counters/mid?target_champion=lissandra#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.29605000000000004
       },
       {
         "id": "jungle-jarvan-combo",
@@ -958,7 +1067,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:ban_rate",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.28500000000000003
       },
       {
         "id": "jungle-masteryi-meditate",
@@ -969,7 +1079,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.27095
       },
       {
         "id": "jungle-khazix-isolation",
@@ -980,7 +1091,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:ban_rate",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.27095
       },
       {
         "id": "jungle-nocturne-six",
@@ -991,7 +1103,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=nocturne#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.27490000000000003
       },
       {
         "id": "jungle-kayn-transform",
@@ -1002,7 +1115,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#stat:ban_rate",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=kayn#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.27175000000000005
       },
       {
         "id": "jungle-ekko-zone",
@@ -1013,7 +1127,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#tip",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#stat:ban_rate",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=ekko#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.26915
       },
       {
         "id": "jungle-jarvan-kda",
@@ -1024,7 +1139,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:kda",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#tip",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=jarvaniv#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.27
       },
       {
         "id": "jungle-masteryi-ban",
@@ -1035,7 +1151,8 @@
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:ban_rate",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:lane_win_rate",
           "https://op.gg/lol/champions/vi/counters/jungle?target_champion=masteryi#stat:win_rate"
-        ]
+        ],
+        "latency_ms": 0.25715
       },
       {
         "id": "jungle-khazix-pick",
@@ -1046,7 +1163,8 @@
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_pick_rate",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:lane_win_rate",
           "https://op.gg/lol/champions/leesin/counters/jungle?target_champion=khazix#stat:win_rate"
-        ]
+        ],
+        "latency_ms": 0.26644999999999996
       },
       {
         "id": "adc-kaisa-jinx-minions",
@@ -1057,7 +1175,8 @@
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#tip",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:ban_rate",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.28925
       },
       {
         "id": "adc-jinx-kaisa-range",
@@ -1068,7 +1187,8 @@
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:ban_rate",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.2879
       },
       {
         "id": "adc-draven-interrupt",
@@ -1079,7 +1199,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:ban_rate",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.28855
       },
       {
         "id": "adc-sivir-shield",
@@ -1090,7 +1211,8 @@
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#tip",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=sivir#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.29125
       },
       {
         "id": "adc-twitch-stealth",
@@ -1101,7 +1223,8 @@
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#stat:ban_rate",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=twitch#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.2885
       },
       {
         "id": "adc-ezreal-shift",
@@ -1112,7 +1235,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#stat:ban_rate",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=ezreal#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.2885
       },
       {
         "id": "adc-kaisa-jinx-kills",
@@ -1123,7 +1247,8 @@
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_kill_rate",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_win_rate",
           "https://op.gg/lol/champions/kaisa/counters/adc?target_champion=jinx#stat:lane_pick_rate"
-        ]
+        ],
+        "latency_ms": 0.28045
       },
       {
         "id": "adc-jinx-kaisa-overall",
@@ -1134,7 +1259,8 @@
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#tip",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:ban_rate",
           "https://op.gg/lol/champions/jinx/counters/adc?target_champion=kaisa#stat:damage_dealt_to_champions"
-        ]
+        ],
+        "latency_ms": 0.27775
       },
       {
         "id": "adc-draven-damage",
@@ -1145,7 +1271,8 @@
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:damage_dealt_to_champions",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#tip",
           "https://op.gg/lol/champions/caitlyn/counters/adc?target_champion=draven#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.26695
       },
       {
         "id": "support-thresh-leona-intercept",
@@ -1156,7 +1283,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:win_rate",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.28205
       },
       {
         "id": "support-leona-thresh-hook",
@@ -1167,7 +1295,8 @@
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:ban_rate",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:kda"
-        ]
+        ],
+        "latency_ms": 0.2821
       },
       {
         "id": "support-morgana-shield",
@@ -1178,7 +1307,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:ban_rate",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:kda"
-        ]
+        ],
+        "latency_ms": 0.27605
       },
       {
         "id": "support-bard-roam",
@@ -1189,7 +1319,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#tip",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#stat:ban_rate",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=bard#stat:kda"
-        ]
+        ],
+        "latency_ms": 0.27535
       },
       {
         "id": "support-janna-tornado",
@@ -1200,7 +1331,8 @@
           "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#stat:ban_rate",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=janna#stat:kda"
-        ]
+        ],
+        "latency_ms": 0.27864999999999995
       },
       {
         "id": "support-pyke-six",
@@ -1211,7 +1343,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#stat:ban_rate",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=pyke#stat:kda"
-        ]
+        ],
+        "latency_ms": 0.28300000000000003
       },
       {
         "id": "support-thresh-leona-ban",
@@ -1222,7 +1355,8 @@
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:ban_rate",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:win_rate",
           "https://op.gg/lol/champions/thresh/counters/support?target_champion=leona#stat:lane_kill_rate"
-        ]
+        ],
+        "latency_ms": 0.2588
       },
       {
         "id": "support-leona-thresh-kp",
@@ -1233,7 +1367,8 @@
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#tip",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:win_rate",
           "https://op.gg/lol/champions/leona/counters/support?target_champion=thresh#stat:ban_rate"
-        ]
+        ],
+        "latency_ms": 0.2707
       },
       {
         "id": "support-morgana-lane-win",
@@ -1244,7 +1379,8 @@
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:lane_win_rate",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#tip",
           "https://op.gg/lol/champions/nautilus/counters/support?target_champion=morgana#stat:win_rate"
-        ]
+        ],
+        "latency_ms": 0.2703
       }
     ]
   },

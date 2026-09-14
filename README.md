@@ -95,15 +95,27 @@ configuration. Matching hashes mean two reports used byte-for-byte identical
 inputs and evaluator code. A dirty Git state is still traceable through the
 evaluator hash, but committed experiments are preferable for final comparisons.
 
+Retrieval latency is measured separately for each strategy. Every case receives
+one untimed correctness/warmup call followed by 20 timed calls using Python's
+monotonic nanosecond clock. The report retains each case's median latency and
+summarizes the distribution with minimum, mean, median, p95, maximum, and an
+estimated total for one pass over the evaluation workload. Index construction
+and full benchmark wall time are reported separately; API, database, embedding,
+and answer-generation latency are outside this deterministic benchmark's scope.
+
 Latest checked-in result:
 
-| Strategy | Hit@1 | Hit@3 | MRR@10 | Miss@10 |
-| --- | ---: | ---: | ---: | ---: |
-| Global TF-IDF baseline | 17.8% | 33.3% | 0.256 | 57.8% |
-| Metadata + intent hybrid | 93.3% | 93.3% | 0.942 | 0.0% |
+| Strategy | Hit@1 | Hit@3 | MRR@10 | Miss@10 | Median latency | P95 latency |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Global TF-IDF baseline | 17.8% | 33.3% | 0.256 | 57.8% | 6.51 ms | 7.63 ms |
+| Metadata + intent hybrid | 93.3% | 93.3% | 0.942 | 0.0% | 0.28 ms | 0.30 ms |
 
 That is a +75.6 percentage-point Hit@1 improvement. The hybrid improves the
 rank on 37 of 45 cases, regresses on none, and changes 34 paired Hit@1 failures
 to successes (two-sided exact paired p = 1.16e-10). Three deliberately difficult
 stat paraphrases remain below rank 1, keeping the result useful for the next
-iteration instead of hiding all residual errors.
+iteration instead of hiding all residual errors. On the recorded machine, the
+hybrid's mean in-process retrieval latency is roughly 22 times faster because
+metadata filtering dramatically reduces the TF-IDF candidate set. These local
+CPU timings characterize this evaluator only, not PostgreSQL or networked model
+latency.
