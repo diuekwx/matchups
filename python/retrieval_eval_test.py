@@ -1,12 +1,55 @@
+import hashlib
+
 from retrieval_eval import (
     TfidfIndex,
     build_passages,
     infer_stat_intent,
+    file_sha256,
     paired_comparison,
     passage_id,
     retrieve_hybrid,
+    reproducibility_metadata,
     summarize,
 )
+
+
+def test_file_sha256_hashes_exact_file_bytes(tmp_path):
+    path = tmp_path / "input.json"
+    content = b'{"stable":true}\n'
+    path.write_bytes(content)
+
+    assert file_sha256(path) == hashlib.sha256(content).hexdigest()
+
+
+def test_reproducibility_metadata_identifies_inputs_code_and_config(tmp_path):
+    corpus_path = tmp_path / "chunks.json"
+    dataset_path = tmp_path / "cases.json"
+    evaluator_path = tmp_path / "project" / "python" / "retrieval_eval.py"
+    evaluator_path.parent.mkdir(parents=True)
+    corpus_path.write_text("[]", encoding="utf-8")
+    dataset_path.write_text("[]", encoding="utf-8")
+    evaluator_path.write_text("# evaluator", encoding="utf-8")
+
+    metadata = reproducibility_metadata(
+        corpus_path,
+        dataset_path,
+        evaluator_path,
+        chunks=[{"id": 1}],
+        passages=[{"id": 1}, {"id": 2}],
+        cases=[{"id": "case-1"}],
+    )
+
+    assert metadata["report_schema_version"] == "2.0"
+    assert metadata["inputs"]["corpus"]["chunks"] == 1
+    assert metadata["inputs"]["corpus"]["passages"] == 2
+    assert metadata["inputs"]["dataset"]["cases"] == 1
+    assert len(metadata["inputs"]["corpus"]["sha256"]) == 64
+    assert len(metadata["code"]["evaluator_sha256"]) == 64
+    assert metadata["retrieval_config"]["limit"] == 10
+    assert metadata["retrieval_config"]["hybrid"]["metadata_filters"] == [
+        "champion", "opponent", "role",
+    ]
+    assert metadata["models"]["embedding"] is None
 
 
 def test_build_passages_splits_tip_and_stats():

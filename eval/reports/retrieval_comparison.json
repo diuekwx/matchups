@@ -1,5 +1,113 @@
 {
-  "created_at": "2026-09-14T21:34:55.871931+00:00",
+  "created_at": "2026-09-14T22:01:48.478318+00:00",
+  "reproducibility": {
+    "report_schema_version": "2.0",
+    "evaluator_version": "retrieval-eval-v1",
+    "inputs": {
+      "corpus": {
+        "path": "scraper\\output\\chunks.json",
+        "sha256": "ff83ba18ecacc18148f732440b5f0b5df3a8dabd8b6b675c8ad5f9cb4bf3c16f",
+        "chunks": 225,
+        "passages": 2071
+      },
+      "dataset": {
+        "path": "eval\\retrieval_cases.json",
+        "sha256": "3b8b001cbfbaf10d61cfba8ae16594df0a75744c30a9505dcb101f49fa0d7bf0",
+        "cases": 45
+      }
+    },
+    "code": {
+      "commit": "cc9ee49e9a06db21a19ef190b8c093aa5de1a525",
+      "dirty": true,
+      "evaluator_path": "python\\retrieval_eval.py",
+      "evaluator_sha256": "c71c7d3935bc4deb4cc7457d72914387c6a5bbe202459b20386f06f7100339ed"
+    },
+    "runtime": {
+      "python": "3.12.4",
+      "platform": "Windows-11-10.0.26200-SP0"
+    },
+    "models": {
+      "embedding": null,
+      "generation": null,
+      "note": "This benchmark is deterministic and API-free."
+    },
+    "retrieval_config": {
+      "limit": 10,
+      "passage_unit": "one matchup tip or one matchup statistic",
+      "token_pattern": "[a-z0-9]+(?:'[a-z0-9]+)?",
+      "tfidf": {
+        "term_frequency": "raw count",
+        "inverse_document_frequency": "log((N + 1) / (df + 1)) + 1",
+        "similarity": "cosine"
+      },
+      "baseline": {
+        "candidate_scope": "all passages",
+        "query_expansion": false
+      },
+      "hybrid": {
+        "metadata_filters": [
+          "champion",
+          "opponent",
+          "role"
+        ],
+        "metadata_match": "case-insensitive exact",
+        "query_expansion": true,
+        "expected_evidence_type_reranking": true,
+        "stat_aliases": {
+          "win_rate": [
+            "overall win rate",
+            "wins overall",
+            "overall success rate",
+            "match win percentage"
+          ],
+          "lane_win_rate": [
+            "lane win rate",
+            "wins lane",
+            "wins the laning phase",
+            "laning success rate",
+            "lane advantage percentage"
+          ],
+          "lane_kill_rate": [
+            "lane kill rate",
+            "solo kill rate",
+            "kills in lane",
+            "lane kills percentage"
+          ],
+          "kda": [
+            "kda",
+            "kills deaths assists",
+            "combat ratio"
+          ],
+          "kill_participation": [
+            "kill participation",
+            "team kills involved",
+            "kp"
+          ],
+          "damage_dealt_to_champions": [
+            "champion damage",
+            "damage to champions",
+            "player damage"
+          ],
+          "first_tower_kill": [
+            "first tower",
+            "first turret",
+            "tower time",
+            "turret timing"
+          ],
+          "lane_pick_rate": [
+            "lane pick rate",
+            "picked in lane",
+            "lane popularity"
+          ],
+          "ban_rate": [
+            "ban rate",
+            "banned",
+            "ban percentage"
+          ]
+        }
+      }
+    }
+  },
   "corpus": "scraper\\output\\chunks.json",
   "dataset": "eval\\retrieval_cases.json",
   "corpus_passages": 2071,

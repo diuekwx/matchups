@@ -11,9 +11,12 @@ are intentionally kept small and explainable:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
+import platform
 import re
+import subprocess
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,6 +26,9 @@ from typing import Any, Iterable
 DEFAULT_CORPUS = Path("scraper/output/chunks.json")
 DEFAULT_DATASET = Path("eval/retrieval_cases.json")
 DEFAULT_OUT = Path("eval/reports/retrieval_comparison.json")
+REPORT_SCHEMA_VERSION = "2.0"
+EVALUATOR_VERSION = "retrieval-eval-v1"
+RETRIEVAL_LIMIT = 10
 
 TOKEN_RE = re.compile(r"[a-z0-9]+(?:'[a-z0-9]+)?")
 STAT_ALIASES = {
@@ -36,6 +42,106 @@ STAT_ALIASES = {
     "lane_pick_rate": ("lane pick rate", "picked in lane", "lane popularity"),
     "ban_rate": ("ban rate", "banned", "ban percentage"),
 }
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as file:
+        for block in iter(lambda: file.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def git_state(repo_root: Path) -> dict[str, Any]:
+    """Return traceable source state without requiring Git to be available."""
+    try:
+        commit_result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        status_result = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=normal"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return {"commit": None, "dirty": None}
+
+    commit = commit_result.stdout.strip() if commit_result.returncode == 0 else None
+    dirty = bool(status_result.stdout.strip()) if status_result.returncode == 0 else None
+    return {"commit": commit, "dirty": dirty}
+
+
+def reproducibility_metadata(
+    corpus_path: Path,
+    dataset_path: Path,
+    evaluator_path: Path,
+    chunks: list[dict[str, Any]],
+    passages: list[dict[str, Any]],
+    cases: list[dict[str, Any]],
+) -> dict[str, Any]:
+    repo_root = evaluator_path.resolve().parents[1]
+    try:
+        evaluator_display_path = evaluator_path.resolve().relative_to(repo_root)
+    except ValueError:
+        evaluator_display_path = evaluator_path
+    return {
+        "report_schema_version": REPORT_SCHEMA_VERSION,
+        "evaluator_version": EVALUATOR_VERSION,
+        "inputs": {
+            "corpus": {
+                "path": str(corpus_path),
+                "sha256": file_sha256(corpus_path),
+                "chunks": len(chunks),
+                "passages": len(passages),
+            },
+            "dataset": {
+                "path": str(dataset_path),
+                "sha256": file_sha256(dataset_path),
+                "cases": len(cases),
+            },
+        },
+        "code": {
+            **git_state(repo_root),
+            "evaluator_path": str(evaluator_display_path),
+            "evaluator_sha256": file_sha256(evaluator_path),
+        },
+        "runtime": {
+            "python": platform.python_version(),
+            "platform": platform.platform(),
+        },
+        "models": {
+            "embedding": None,
+            "generation": None,
+            "note": "This benchmark is deterministic and API-free.",
+        },
+        "retrieval_config": {
+            "limit": RETRIEVAL_LIMIT,
+            "passage_unit": "one matchup tip or one matchup statistic",
+            "token_pattern": TOKEN_RE.pattern,
+            "tfidf": {
+                "term_frequency": "raw count",
+                "inverse_document_frequency": "log((N + 1) / (df + 1)) + 1",
+                "similarity": "cosine",
+            },
+            "baseline": {
+                "candidate_scope": "all passages",
+                "query_expansion": False,
+            },
+            "hybrid": {
+                "metadata_filters": ["champion", "opponent", "role"],
+                "metadata_match": "case-insensitive exact",
+                "query_expansion": True,
+                "expected_evidence_type_reranking": True,
+                "stat_aliases": STAT_ALIASES,
+            },
+        },
+    }
 
 
 def slug(value: str) -> str:
@@ -203,7 +309,7 @@ def evaluate(index: TfidfIndex, cases: list[dict[str, Any]], strategy: str) -> d
     retriever = retrieve_baseline if strategy == "baseline" else retrieve_hybrid
     results = []
     for case in cases:
-        retrieved = retriever(index, case, 10)
+        retrieved = retriever(index, case, RETRIEVAL_LIMIT)
         results.append({
             "id": case["id"],
             "challenge": case["challenge"],
@@ -262,7 +368,8 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     args = parser.parse_args()
 
-    passages = build_passages(load_json_list(args.corpus))
+    chunks = load_json_list(args.corpus)
+    passages = build_passages(chunks)
     cases = load_json_list(args.dataset)
     passages_by_id = {passage["id"]: passage for passage in passages}
     validate_cases(cases, passages_by_id)
@@ -271,6 +378,14 @@ def main() -> None:
     hybrid = evaluate(index, cases, "hybrid")
     report = {
         "created_at": datetime.now(timezone.utc).isoformat(),
+        "reproducibility": reproducibility_metadata(
+            args.corpus,
+            args.dataset,
+            Path(__file__),
+            chunks,
+            passages,
+            cases,
+        ),
         "corpus": str(args.corpus),
         "dataset": str(args.dataset),
         "corpus_passages": len(passages),

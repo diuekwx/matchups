@@ -88,6 +88,13 @@ structured inputs. It deliberately does not claim to evaluate entity extraction
 or generated-answer quality; the existing `python/eval.py` remains the
 end-to-end generation evaluation.
 
+Each report includes a `reproducibility` block containing SHA-256 identifiers
+for the corpus, evaluation dataset, and evaluator source; the Git commit and
+dirty-worktree state; Python/platform information; and the complete retrieval
+configuration. Matching hashes mean two reports used byte-for-byte identical
+inputs and evaluator code. A dirty Git state is still traceable through the
+evaluator hash, but committed experiments are preferable for final comparisons.
+
 Latest checked-in result:
 
 | Strategy | Hit@1 | Hit@3 | MRR@10 | Miss@10 |
